@@ -58,6 +58,11 @@ public class FilterImplementation<T> {
        
         query.select(t)
             .where(finalPredicate);
+
+            if (orderby != null && !orderby.isEmpty()) {
+                Path<?> orderPath = t.get(orderby);
+                query.orderBy(cb.desc(orderPath));
+            }
         
         return entityManager.createQuery(query)
             .setFirstResult(offset).setMaxResults(limit).getResultList();
